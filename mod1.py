@@ -1,9 +1,6 @@
 from datetime import date
-<<<<<<< HEAD
 import csv, datetime, os.path, re, os, glob
-=======
 import csv, datetime, os.path, re, os, glob, random
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
 from xlsxwriter.workbook import Workbook
     
 
@@ -165,11 +162,8 @@ class Stock:
         #Get product from user
         stock = cls.getStockedProduct()      
         try:
-<<<<<<< HEAD
-            with open(cls.dateFileNameStock(), "a", newline="") as file:
-=======
             with open(Stock.csv, "a", newline="") as file:
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
+
                 fieldnames = ["PC", "DATE", "PRD", "QTY", "CP", "SP", "TP"]
                 writer = csv.DictWriter(file, fieldnames = fieldnames)
                 #If file does not exist create header.
@@ -194,11 +188,7 @@ class Stock:
     def total_quantity_stocked(cls, PC):         
         stocked_product = []
         try:
-<<<<<<< HEAD
-            with open(cls.dateFileNameStock()) as file:
-=======
             with open("Stock.csv") as file:
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
                 reader = csv.DictReader(file)
                 for row in reader:
                     if PC == row["PC"]:
@@ -213,11 +203,7 @@ class Stock:
     def stockList(cls): 
         stocklist = []             
         try:
-<<<<<<< HEAD
-            with open(cls.dateFileNameStock()) as file:
-=======
             with open("Stock.csv") as file:
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
                 reader = csv.DictReader(file)  
                 for row in reader:            
                     stocklist.append(row)              
@@ -227,12 +213,8 @@ class Stock:
             return stocklist
         except BaseException as err:
             pass
-<<<<<<< HEAD
-    
-    
-=======
 
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
+
     @classmethod
     def codeGenerator(cls):
         n = int(input("No. of PC to generate: "))
@@ -241,15 +223,6 @@ class Stock:
             random_list.append(random.randint(100, 1000000))
         for n in random_list:
             print(n)
-<<<<<<< HEAD
-            
-=======
-
-    
-    
-    
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
-    
 
 
 
@@ -257,6 +230,8 @@ class Stock:
 
 #SALES CLASS
 class Sales:
+    
+
     @classmethod
     def totalQuantitySold(cls, PC):
         now = datetime.datetime.now()
@@ -297,9 +272,12 @@ class Sales:
             except BaseException as err:
                 print(err)
             for fileName in fileNamesList2:
-                if PC == fileName["PC"]:
-                    quantity.append(fileName["QTY"])
+                    if PC == fileName["PC"]:
+                        quantity.append(fileName["QTY"])
             return sum(int(list) for list in quantity)
+            
+        
+        
 
 
     #create sales record file name every first day of the month
@@ -326,6 +304,8 @@ class Sales:
         except BaseException as err:
             pass 
         
+    
+
     @classmethod        
     def sell_product(cls):         
         #Display sales record, create sales record, create expired product record, display sales summary    
@@ -338,7 +318,7 @@ class Sales:
             except BaseException as err:
                 print(err)
             try:
-<<<<<<< HEAD
+
                 QTY = int(input("|No. of tablets: "))
             except BaseException:
                 pass
@@ -351,23 +331,13 @@ class Sales:
                         #  spreadsheet
                         cls.csv_to_excel()                      
                         print("|PRD:",product["PRD"], "|SP:", product["SP"], "|QTY:",QTY, "|AMT:",int(product["SP"]) * QTY)                   
-=======
-                for product in Stock.stockList():
-                    if PC == product["PC"]:
-                        qty = get_quantity()
-                        cls.createTempFile(PC)
-                        cls.createSalesFile(PC) 
-                        #converts csv sales file to excel
-                        #  spreadsheet
-                        cls.csv_to_excel()                      
-                        print("|PRD: ", product["PRD"], "|PRICE: #", product["SP"], "|QTY:", qty, sep="")
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
+                
             except BaseException:
                 pass
         # display a summary of sales 
         # detail
         try:
-            cls.show_sales_summary()
+            cls.show_sales_summary(PC)
         except BaseException:
             pass
                                       
@@ -375,35 +345,22 @@ class Sales:
             
     
     @classmethod
-<<<<<<< HEAD
     def createSalesFile(cls, PC, QTY):                 
         #if product is still in stock and not yet expired a sales file is created to hold details
         trans_date = str(date.today())
-=======
-    def createSalesFile(cls, PC):                 
-        #if product is still in stock and not yet expired a sales file is created to hold details
-        trans_date = str(date.today())
-        qty = get_quantity()
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
         for product in Stock.stockList(): 
             if PC == product["PC"]:            
                 try:                
                     with open(cls.dateFileNameSales(), "a", newline="") as file:                
                         
-<<<<<<< HEAD
+
                         fieldnames = ["PC", "DATE", "PRD", "SP", "QTY", "AMT"]                
-=======
-                        fieldnames = ["PC", "DATE", "PRD", "SP", "QTY"]                
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
+   
                         writer = csv.DictWriter(file, fieldnames=fieldnames)
                         #If file does not exist create header.            
                         if file.tell() == 0:
                             writer.writeheader() 
-<<<<<<< HEAD
                         writer.writerow({"PC": product["PC"], "DATE": trans_date, "PRD": product["PRD"], "SP": product["SP"], "QTY": QTY, "AMT": int(product["SP"]) * QTY})                       
-=======
-                        writer.writerow({"PC": product["PC"], "DATE": trans_date, "PRD": product["PRD"], "SP": product["SP"], "QTY": qty})                       
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
                         
                 except BaseException as err:
                     print(err)
@@ -411,41 +368,27 @@ class Sales:
 
         
     @classmethod   
-<<<<<<< HEAD
     def createTempFile(cls, PC, QTY):
-        trans_date = str(date.today())            
-=======
-    def createTempFile(cls, PC):
         trans_date = str(date.today())
-        qty = get_quantity()            
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
         for product in Stock.stockList(): 
             if PC == product["PC"]:
             # create a temp file to display sales summary        
                 try:             
                     with open(temp_file(), "a", newline="") as file:                
-<<<<<<< HEAD
                         fieldnames = ["PC", "DATE", "PRD", "SP", "QTY", "AMT"]                
-=======
-                        fieldnames = ["PC", "DATE", "PRD", "SP", "QTY"]                
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
+
                         writer = csv.DictWriter(file, fieldnames=fieldnames)
                         #If file does not exist create header.            
                         if file.tell() == 0:
                             writer.writeheader() 
-<<<<<<< HEAD
                         writer.writerow({"PC": product["PC"], "DATE": trans_date, "PRD": product["PRD"], "SP": product["SP"], "QTY": QTY, "AMT": int(product["SP"]) * QTY})                       
-=======
-                        writer.writerow({"PC": product["PC"], "DATE": trans_date, "PRD": product["PRD"], "SP": product["SP"], "QTY": qty})                       
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
-                        
                 except BaseException as err:
                     print(err)
 
    
    
     @classmethod
-    def show_sales_summary(cls):
+    def show_sales_summary(cls, PC):
         counter = 0    
         price_product = []
         total_qty = []
@@ -455,11 +398,7 @@ class Sales:
                 reader = csv.DictReader(file)
                 for row in reader:                                    
                     product_name.append(row)            
-<<<<<<< HEAD
                     price_product.append(row["AMT"]) 
-=======
-                    price_product.append(row["SP"]) 
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
                     total_qty.append(row["QTY"])
         except BaseException as err:
             pass
@@ -473,12 +412,12 @@ class Sales:
             print("|Total Qty: ", sum(int(list) for list in total_qty))
             print("|Total Amount: #", sum(float(list) for list in price_product), "\n", sep="")        
             #product balance in stock
-            cls.product_balance() 
+            cls.product_balance(PC) 
 
     
     
     @classmethod
-    def product_balance(cls):        
+    def product_balance(cls, PC):        
         try:
             with open(temp_file()) as file:
                 reader = csv.DictReader(file)
@@ -491,7 +430,7 @@ class Sales:
                 PC = prod["PC"] 
                 prod_name = prod["PRD"]             
                 if Stock.total_quantity_stocked(PC) == cls.totalQuantitySold(PC):            
-                    print("|",prod_name, "Out of stock!")                    
+                    print(f"|{prod_name} Out of stock!")                    
                 else:  
                     print(f"|{prod_name}, {Stock.total_quantity_stocked(PC) - cls.totalQuantitySold(PC)} remaining in stock, {cls.totalQuantitySold(PC)} sold.")  
      
@@ -527,11 +466,8 @@ class Sales:
                 reader = csv.DictReader(file)
                 for row in reader:
                     total_sales_quantity.append(row["QTY"])
-<<<<<<< HEAD
                     total_total_amount.append(row["AMT"])
-=======
                     total_total_amount.append(row["SP"])
->>>>>>> 4e1d81f15443ea57de4675d1380ba0398831e2f3
         except BaseException as err:
             print(err)
         else:
@@ -550,7 +486,9 @@ class Sales:
 
 def main():
     count = 0
-Sales.totalQuantitySold("121212")
+
+sales = Sales.totalQuantitySold("121210")
+print(sales)
 #Sales.sell_product()
 #Sales.createTempFile(121212)
 #Sales.createSalesFile(121212)
